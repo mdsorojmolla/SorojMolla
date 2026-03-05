@@ -26,7 +26,6 @@ function openMenu() {
   menuBackdrop.classList.add("show");
   hamburger.setAttribute("aria-expanded", "true");
   mobileMenu.setAttribute("aria-hidden", "false");
-  hamburger.classList.add("is-open");
 
   // Focus first link for accessibility
   const firstLink = $(".mobile-link", mobileMenu);
@@ -39,7 +38,7 @@ function closeMenu() {
   hamburger.setAttribute("aria-expanded", "false");
   mobileMenu.setAttribute("aria-hidden", "true");
   hamburger.focus();
-  hamburger.classList.remove("is-open");
+
 }
 
 hamburger.addEventListener("click", () => {
@@ -216,19 +215,48 @@ modal.addEventListener("cancel", (e) => {
   closeProjectModal();
 });
 
-/* ---------- Contact form (demo behavior) ---------- */
-const contactForm = $("#contactForm");
-const formNote = $("#formNote");
+/* ---------- Contact form ---------- */
 
-contactForm.addEventListener("submit", (e) => {
+const contactForm = document.querySelector("#contactForm");
+const formNote = document.querySelector("#formNote");
+
+const FORM_ENDPOINT = "https://formspree.io/f/xaqpwpkl"; // your formspree link
+
+contactForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // In real use: send to Formspree, Netlify forms, or your backend.
-  formNote.textContent = "✅ Message prepared (demo). Connect a backend to actually send emails.";
+  const formData = new FormData(contactForm);
 
-  contactForm.reset();
-  setTimeout(() => (formNote.textContent = ""), 4000);
+  try {
+    const response = await fetch(FORM_ENDPOINT, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json"
+      }
+    });
+
+    if (response.ok) {
+      formNote.textContent = "✅ Message sent successfully!";
+      contactForm.reset();
+    } else {
+      formNote.textContent = "❌ Failed to send message.";
+    }
+  } catch (error) {
+    formNote.textContent = "⚠️ Network error. Try again.";
+  }
+
+  setTimeout(() => {
+    formNote.textContent = "";
+  }, 4000);
 });
+
+
+
+
+
+
+
 
 /* ---------- Light Particles Background (Canvas) ---------- */
 /*
