@@ -220,7 +220,7 @@ modal.addEventListener("cancel", (e) => {
 const contactForm = document.querySelector("#contactForm");
 const formNote = document.querySelector("#formNote");
 
-const FORM_ENDPOINT = "https://formspree.io/f/xaqpwpkl"; // your formspree link
+const FORM_ENDPOINT = "https://formspree.io/f/mdawnyrb"; // your formspree link
 
 contactForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -382,3 +382,4 @@ contactForm.addEventListener("submit", async (e) => {
   createParticles();
   draw();
 })();
+
