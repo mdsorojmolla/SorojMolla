@@ -26,6 +26,7 @@ function openMenu() {
   menuBackdrop.classList.add("show");
   hamburger.setAttribute("aria-expanded", "true");
   mobileMenu.setAttribute("aria-hidden", "false");
+  hamburger.classList.add("is-open");
 
   // Focus first link for accessibility
   const firstLink = $(".mobile-link", mobileMenu);
@@ -37,6 +38,7 @@ function closeMenu() {
   menuBackdrop.classList.remove("show");
   hamburger.setAttribute("aria-expanded", "false");
   mobileMenu.setAttribute("aria-hidden", "true");
+  hamburger.classList.remove("is-open");
   hamburger.focus();
 
 }
@@ -220,7 +222,7 @@ modal.addEventListener("cancel", (e) => {
 const contactForm = document.querySelector("#contactForm");
 const formNote = document.querySelector("#formNote");
 
-const FORM_ENDPOINT = "https://formspree.io/f/mdawnyrb"; // your formspree link
+const FORM_ENDPOINT = "https://formspree.io/f/xaqpwpkl"; // your formspree link
 
 contactForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -382,4 +384,3 @@ contactForm.addEventListener("submit", async (e) => {
   createParticles();
   draw();
 })();
-
