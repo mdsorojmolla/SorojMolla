@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+    Soroj Molla — Glass Portfolio
+    Files:
+      - index.html
+      - style.css
+      - script.js
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Soroj Molla — CSE Student Portfolio (Glassmorphism / Apple liquid glass style)" />
+  <title>Soroj Molla — Portfolio</title>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Icons (Font Awesome) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Soft background decorations -->
+  <div class="bg-blobs" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+  </div>
+
+  <!-- Optional light particles (canvas) -->
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <!-- Header / Navbar -->
+  <header class="site-header">
+    <nav class="navbar glass" aria-label="Primary Navigation">
+      <a class="brand" href="#home" aria-label="Go to Home">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-text">Soroj</span>
+      </a>
+
+      <!-- Desktop menu -->
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link" href="#home"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+        <li><a class="nav-link" href="#about"><i class="fa-solid fa-user"></i><span>About</span></a></li>
+        <li><a class="nav-link" href="#skills"><i class="fa-solid fa-bolt"></i><span>Skills</span></a></li>
+        <li><a class="nav-link" href="#projects"><i class="fa-solid fa-folder-open"></i><span>Projects</span></a></li>
+        <li><a class="nav-link" href="#services"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Services</span></a></li>
+        <li><a class="nav-link" href="#contact"><i class="fa-solid fa-envelope"></i><span>Contact</span></a></li>
+      </ul>
+
+      <!-- Mobile hamburger -->
+      <button
+        class="hamburger"
+        id="hamburger"
+        aria-label="Open menu"
+        aria-controls="mobileMenu"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile slide-in menu -->
+    <aside class="mobile-menu glass" id="mobileMenu" aria-hidden="true">
+      <div class="mobile-menu-top">
+        <div class="mobile-brand">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <strong>Soroj Molla</strong>
+        </div>
+
+        <button class="mobile-close" id="mobileClose" aria-label="Close menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <ul class="mobile-links">
+        <li><a class="mobile-link" href="#home"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+        <li><a class="mobile-link" href="#about"><i class="fa-solid fa-user"></i><span>About</span></a></li>
+        <li><a class="mobile-link" href="#skills"><i class="fa-solid fa-bolt"></i><span>Skills</span></a></li>
+        <li><a class="mobile-link" href="#projects"><i class="fa-solid fa-folder-open"></i><span>Projects</span></a></li>
+        <li><a class="mobile-link" href="#services"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Services</span></a></li>
+        <li><a class="mobile-link" href="#contact"><i class="fa-solid fa-envelope"></i><span>Contact</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Backdrop for mobile menu -->
+    <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section class="section hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-left reveal">
+          <div class="profile-cutout">
+  <img class="profile-img floating" src="assets/Soroj.png" alt="Soroj Molla" loading="lazy" />
+
+  <!-- ground shadow -->
+  <div class="ground-shadow"></div>
+</div>
+
+          <div class="hero-badges">
+            <span class="pill glass"><i class="fa-solid fa-graduation-cap"></i> CSE Student</span>
+            <span class="pill glass"><i class="fa-solid fa-lightbulb"></i> Learner</span>
+            <span class="pill glass"><i class="fa-solid fa-video"></i> Content Creator</span>
+          </div>
+        </div>
+
+        <div class="hero-right reveal">
+          <p class="kicker">Hi, I’m</p>
+          <h1 class="title">Soroj Molla</h1>
+          <p class="subtitle">CSE Student | Content Creator | Tech Enthusiast</p>
+
+          <p class="intro">
+            I love building clean, modern interfaces and learning core computer science concepts.
+            I’m focused on problem solving, presentation, and growing my web development skills.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="#" download>
+              <i class="fa-solid fa-download"></i>
+              Download Resume
+            </a>
+            <a class="btn ghost" href="#projects">
+              <i class="fa-solid fa-folder-open"></i>
+              View Projects
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat glass">
+              <span class="stat-num">4+</span>
+              <span class="stat-label">Core Skills</span>
+            </div>
+            <div class="stat glass">
+              <span class="stat-num">Learning</span>
+              <span class="stat-label">Web Dev</span>
+            </div>
+            <div class="stat glass">
+              <span class="stat-num">Tech</span>
+              <span class="stat-label">Content</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">About</h2>
+          <p class="section-desc">A quick introduction about me and what I’m working toward.</p>
+        </div>
+
+        <div class="glass card about-card reveal">
+          <div class="about-text">
+            <p>
+              I’m <strong>Soroj Molla</strong>, a CSE student who’s passionate about technology and learning how things work—
+              from fundamentals of programming to modern web interfaces.
+            </p>
+            <p>
+              I enjoy <strong>problem solving</strong> and building confidence through <strong>presentation skills</strong>.
+              My goal is to become a strong developer by mastering core concepts and shipping real projects.
+            </p>
+            <p>
+              I’m currently learning <strong>Web Development</strong> and exploring ways to create elegant user experiences
+              with clean code and modern UI design.
+            </p>
+          </div>
+
+          <div class="about-highlights">
+            <div class="mini glass">
+              <i class="fa-solid fa-code"></i>
+              <div>
+                <h3>Programming</h3>
+                <p>Strong base in C + logic building</p>
+              </div>
+            </div>
+
+            <div class="mini glass">
+              <i class="fa-solid fa-brain"></i>
+              <div>
+                <h3>Problem Solving</h3>
+                <p>Step-by-step thinking & practice</p>
+              </div>
+            </div>
+
+            <div class="mini glass">
+              <i class="fa-solid fa-microphone"></i>
+              <div>
+                <h3>Communication</h3>
+                <p>Clear explanations & presentations</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Skills</h2>
+          <p class="section-desc">Core strengths and what I’m improving right now.</p>
+        </div>
+
+        <div class="grid skills-grid">
+          <!-- Skill Card -->
+          <article class="glass card skill-card reveal">
+            <div class="skill-top">
+              <div class="icon-bubble">
+                <i class="fa-solid fa-c"></i>
+              </div>
+              <div class="skill-meta">
+                <h3>C Programming</h3>
+                <p class="muted">Fundamentals + practice</p>
+              </div>
+              <span class="skill-percent">75%</span>
+            </div>
+
+            <div class="progress">
+              <div class="bar" data-progress="75"></div>
+            </div>
+          </article>
+
+          <article class="glass card skill-card reveal">
+            <div class="skill-top">
+              <div class="icon-bubble">
+                <i class="fa-solid fa-puzzle-piece"></i>
+              </div>
+              <div class="skill-meta">
+                <h3>Problem Solving</h3>
+                <p class="muted">Logic + consistency</p>
+              </div>
+              <span class="skill-percent">70%</span>
+            </div>
+
+            <div class="progress">
+              <div class="bar" data-progress="70"></div>
+            </div>
+          </article>
+
+          <article class="glass card skill-card reveal">
+            <div class="skill-top">
+              <div class="icon-bubble">
+                <i class="fa-solid fa-chalkboard-user"></i>
+              </div>
+              <div class="skill-meta">
+                <h3>Presentation</h3>
+                <p class="muted">Explaining clearly</p>
+              </div>
+              <span class="skill-percent">85%</span>
+            </div>
+
+            <div class="progress">
+              <div class="bar" data-progress="85"></div>
+            </div>
+          </article>
+
+          <article class="glass card skill-card reveal">
+            <div class="skill-top">
+              <div class="icon-bubble">
+                <i class="fa-brands fa-html5"></i>
+              </div>
+              <div class="skill-meta">
+                <h3>HTML / CSS</h3>
+                <p class="muted">Learning modern UI</p>
+              </div>
+              <span class="skill-percent">60%</span>
+            </div>
+
+            <div class="progress">
+              <div class="bar" data-progress="60"></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Projects</h2>
+          <p class="section-desc">Click a project to view full details in a glass modal.</p>
+        </div>
+
+        <div class="grid projects-grid">
+          <!-- Project Card (data attributes power the modal) -->
+          <article class="glass card project-card reveal"
+            data-title="Student Helper App (Concept)"
+            data-desc="A concept app to help students organize study tasks, notes, and reminders."
+            data-full="A clean UI concept for a student helper application. It focuses on simple task lists, study timers, and quick note capture. The goal is to improve consistency and reduce overwhelm with a minimal interface."
+            data-tech="HTML, CSS, JavaScript"
+            data-demo="#"
+            data-github="#"
+            data-image="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop"
+          >
+            <div class="project-thumb">
+              <img
+                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop"
+                alt="Project thumbnail"
+                loading="lazy"
+              />
+            </div>
+            <div class="project-body">
+              <h3>Student Helper App</h3>
+              <p class="muted">Study tasks, notes, reminders (concept)</p>
+              <span class="chip"><i class="fa-solid fa-arrow-pointer"></i> Click for details</span>
+            </div>
+          </article>
+
+          <article class="glass card project-card reveal"
+            data-title="C Problem Solving Tracker"
+            data-desc="Track solved problems, topics, and progress like a mini dashboard."
+            data-full="A lightweight tracker for problem solving practice. It stores solved problems in localStorage, shows totals by topic, and gives weekly progress. Designed to help build consistency."
+            data-tech="HTML, CSS, JavaScript (LocalStorage)"
+            data-demo="#"
+            data-github="#"
+            data-image="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=1200&auto=format&fit=crop"
+          >
+            <div class="project-thumb">
+              <img
+                src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=1200&auto=format&fit=crop"
+                alt="Project thumbnail"
+                loading="lazy"
+              />
+            </div>
+            <div class="project-body">
+              <h3>Problem Solving Tracker</h3>
+              <p class="muted">Dashboard-style practice tracker</p>
+              <span class="chip"><i class="fa-solid fa-arrow-pointer"></i> Click for details</span>
+            </div>
+          </article>
+
+          <article class="glass card project-card reveal"
+            data-title="Glass Portfolio Template"
+            data-desc="A modern portfolio with Apple-style crystal glass UI."
+            data-full="This portfolio template uses glassmorphism UI patterns: frosted cards, soft shadows, blurred backgrounds, and smooth micro-interactions. It’s responsive and beginner-friendly to edit."
+            data-tech="HTML, CSS, JavaScript"
+            data-demo="#home"
+            data-github="#"
+            data-image="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop"
+          >
+            <div class="project-thumb">
+              <img
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop"
+                alt="Project thumbnail"
+                loading="lazy"
+              />
+            </div>
+            <div class="project-body">
+              <h3>Glass Portfolio</h3>
+              <p class="muted">Crystal UI + smooth animations</p>
+              <span class="chip"><i class="fa-solid fa-arrow-pointer"></i> Click for details</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Services</h2>
+          <p class="section-desc">What I can help you with (and improving every day).</p>
+        </div>
+
+        <div class="grid services-grid">
+          <article class="glass card service-card reveal">
+            <div class="service-icon">
+              <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            <h3>Website Development</h3>
+            <p class="muted">Responsive websites using clean HTML, CSS, and JavaScript.</p>
+          </article>
+
+          <article class="glass card service-card reveal">
+            <div class="service-icon">
+              <i class="fa-solid fa-pen-ruler"></i>
+            </div>
+            <h3>Website Design</h3>
+            <p class="muted">Modern UI layouts, glassmorphism, clean and minimal design.</p>
+          </article>
+
+          <article class="glass card service-card reveal">
+            <div class="service-icon">
+              <i class="fa-solid fa-circle-play"></i>
+            </div>
+            <h3>Technical Tutorials</h3>
+            <p class="muted">Beginner-friendly explanations for programming & tools.</p>
+          </article>
+
+          <article class="glass card service-card reveal">
+            <div class="service-icon">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <h3>Digital Consulting</h3>
+            <p class="muted">Guidance on tech choices, learning path, and best practices.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Contact</h2>
+          <p class="section-desc">Send a message or connect with me on social platforms.</p>
+        </div>
+
+        <div class="contact-grid">
+          <form 
+              class="glass card contact-card reveal" 
+              id="contactForm"
+              action="https://formspree.io/f/xaqpwpkl"
+              method="POST">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required />
+            </div>
+
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Write your message..." required></textarea>
+            </div>
+
+            <button class="btn primary full" type="submit">
+              <i class="fa-solid fa-paper-plane"></i>
+              Send Message
+            </button>
+
+            <p class="form-note muted" id="formNote" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="glass card contact-card reveal">
+            <h3 class="contact-title">Find me online</h3>
+            <p class="muted">Stay connected with me ✨</p>
+
+            <div class="socials">
+              <a class="social" href="#" target="_blank" rel="noreferrer" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a class="social" href="#" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
+              </a>
+              <a class="social" href="#" target="_blank" rel="noreferrer" aria-label="YouTube">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+              <a class="social" href="#" target="_blank" rel="noreferrer" aria-label="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+            </div>
+
+            <div class="contact-extra">
+              <div class="mini glass">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>
+                  <h4>Location</h4>
+                  <p class="muted">Dhaka,Bangladesh</p>
+                </div>
+              </div>
+
+              <div class="mini glass">
+                <i class="fa-solid fa-bolt"></i>
+                <div>
+                  <h4>Status</h4>
+                  <p class="muted">Open to learning & collaboration</p>
+                </div>
+              </div>
+            </div>
+
+            <a class="btn ghost full" href="#home">
+              <i class="fa-solid fa-arrow-up"></i>
+              Back to Top
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="muted">© <span id="year"></span> Soroj Molla</p>
+      <!--
+      <div class="footer-badges">
+        <span class="pill glass"><i class="fa-solid fa-sparkles"></i> Glass UI</span>
+        <span class="pill glass"><i class="fa-solid fa-mobile-screen"></i> Responsive</span>
+        <span class="pill glass"><i class="fa-solid fa-wand-magic-sparkles"></i> Smooth Animations</span>
+      </div>
+    </div>
+  </footer>
+-->
+
+  <!-- Project Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
+
+  <dialog class="modal glass" id="projectModal" aria-labelledby="modalTitle" aria-modal="true">
+    <button class="modal-close" id="modalClose" aria-label="Close project details">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="modal-media">
+      <img id="modalImage" src="" alt="Project preview" />
+    </div>
+
+    <div class="modal-content">
+      <h3 id="modalTitle"></h3>
+      <p class="muted" id="modalDesc"></p>
+
+      <div class="modal-block">
+        <h4>Details</h4>
+        <p id="modalFull"></p>
+      </div>
+
+      <div class="modal-block">
+        <h4>Technologies</h4>
+        <p class="muted" id="modalTech"></p>
+      </div>
+
+      <div class="modal-actions">
+        <a class="btn primary" id="modalDemo" href="#" target="_blank" rel="noreferrer">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          Live Demo
+        </a>
+        <a class="btn ghost" id="modalGithub" href="#" target="_blank" rel="noreferrer">
+          <i class="fa-brands fa-github"></i>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
