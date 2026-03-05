@@ -287,19 +287,7 @@ body{
   background: rgba(11,18,32,0.75);
   border-radius: 99px;
 }
-/* Hamburger animation (only changes when menu opens) */
-.hamburger.is-open span:nth-child(1){
-  transform: translateY(7px) rotate(45deg);
-}
-.hamburger.is-open span:nth-child(2){
-  opacity: 0;
-}
-.hamburger.is-open span:nth-child(3){
-  transform: translateY(-7px) rotate(-45deg);
-}
-.hamburger span{
-  transition: transform .2s ease, opacity .2s ease;
-}
+
 /* Mobile menu */
 .menu-backdrop{
   position: fixed;
@@ -317,9 +305,9 @@ body{
 
 .mobile-menu{
   position: fixed;
-  top: 12px;
-  right: 12px;
-  width: min(360px, calc(100% - 24px));
+  top: 14px;
+  right: 14px;
+  width: min(340px, calc(100% - 28px));
   border-radius: 26px;
   padding: 16px;
   z-index: 70;
@@ -438,7 +426,6 @@ body{
 }
 
 /* Hover micro interaction */
-
 .profile-img:hover{
   transform: translateY(-3px) scale(1.02);
   filter:
@@ -446,7 +433,7 @@ body{
     drop-shadow(0 16px 26px rgba(10, 20, 40, 0.12))
     drop-shadow(0 8px 16px rgba(14, 165, 233, 0.14));
 }
-    
+
 /* Floating animation */
 .floating{
   animation: floatY 4.2s ease-in-out infinite;
@@ -893,37 +880,9 @@ dialog[open]{
 }
 
 @media (max-width: 780px){
-  /* Hide desktop links */
   .nav-links{ display: none; }
-
-  /* Make navbar layout stable on mobile */
-  .navbar{
-    justify-content: space-between; /* FIX: no more awkward center squeeze */
-    padding: 10px 12px;
-    gap: 10px;
-  }
-
-  /* Brand should be normal flow (not absolute) */
-  .brand{
-    position: static;  /* FIX */
-    display: inline-flex;
-  }
-
-  /* Hamburger should also be normal flow (not absolute) */
-  .hamburger{
-    position: static;  /* FIX */
-    display: inline-flex;
-    width: 46px;
-    height: 44px;
-    border-radius: 999px;
-  }
-
-  /* Slightly bigger tap area + cleaner bars */
-  .hamburger span{
-    width: 20px;
-    height: 2px;
-  }
-}
+  .hamburger{ display: inline-flex; }
+  .brand{ left: 12px; }
 
   .hero-grid{ grid-template-columns: 1fr; }
   .hero-left{ display: grid; justify-items: center; }
