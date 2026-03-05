@@ -1041,3 +1041,158 @@ dialog[open]{
   }
   #particles{ display: none; }
 }
+
+/* =========================================================
+   MOBILE FIX PATCH (ONLY)
+   Paste at the VERY END of style.css so it overrides older rules.
+========================================================= */
+@media (max-width: 768px){
+
+  /* 1) Prevent any horizontal overflow */
+  html, body { overflow-x: hidden; }
+  * { max-width: 100%; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* 2) Make container spacing better on small screens */
+  .container{
+    width: calc(100% - 22px);
+  }
+  .section{
+    padding: 68px 0;
+  }
+  .hero{
+    padding-top: 88px;
+  }
+
+  /* 3) HERO: force proper stacking (fix your screenshot overlap) */
+  .hero-grid{
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+  .hero-left{
+    justify-items: center;
+  }
+  .hero-right{
+    text-align: center;
+  }
+  .intro{
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Buttons: stop overflow on mobile */
+  .cta-row{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cta-row .btn{
+    width: 100%;
+    white-space: normal;      /* overrides desktop nowrap ONLY on mobile */
+    justify-content: center;
+  }
+
+  /* 4) NAVBAR: show hamburger, hide desktop menu (your screenshot issue) */
+  .nav-links{ display: none !important; }
+  .hamburger{ display: inline-flex !important; }
+
+  .navbar{
+    justify-content: space-between !important;
+    padding: 10px 12px;
+  }
+  .brand{ position: static !important; }
+  .hamburger{ position: static !important; }
+
+  /* 5) SKILLS: force 1 column (your screenshot shows 2 columns) */
+  .skills-grid{
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  .skill-card{
+    padding: 18px;
+  }
+  .skill-top{
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+  }
+
+  /* 6) PROJECTS: force 1 column + fix card sizing */
+  .projects-grid{
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  .project-card{
+    width: 100%;
+    padding: 14px;
+  }
+  .project-thumb img{
+    height: 180px;           /* consistent and clean on mobile */
+    object-fit: cover;
+  }
+  .chip{
+    white-space: normal;     /* prevents chip making layout wider */
+  }
+
+  /* 7) SERVICES: 1 column on mobile */
+  .services-grid{
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  /* 8) CONTACT: force 1 column (your screenshot shows 2 columns) */
+  .contact-grid{
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  /* 9) Mobile menu: make it visible + usable (drawer style) */
+  .menu-backdrop{
+    background: rgba(10, 20, 40, 0.42);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .mobile-menu{
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(360px, 86vw);
+    border-radius: 0;
+    padding: 16px;
+    transform: translateX(110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .18s ease;
+  }
+  .mobile-menu.open{
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Links bigger + clearer */
+  .mobile-link{
+    padding: 14px 14px;
+    border-radius: 18px;
+    font-size: 1rem;
+  }
+
+  /* 10) Modal fit on mobile */
+  .modal{
+    width: calc(100% - 18px);
+    padding: 14px;
+  }
+  .modal-media img{
+    height: 200px;
+  }
+  .modal-actions .btn{
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 420px){
+  .project-thumb img{ height: 160px; }
+  .profile-wrap{ width: min(220px, 82vw); }
+}
