@@ -27,6 +27,7 @@ function openMenu() {
   hamburger.setAttribute("aria-expanded", "true");
   mobileMenu.setAttribute("aria-hidden", "false");
   hamburger.classList.add("is-open");
+  document.body.style.overflow = "hidden";
 
   // Focus first link for accessibility
   const firstLink = $(".mobile-link", mobileMenu);
@@ -40,6 +41,7 @@ function closeMenu() {
   mobileMenu.setAttribute("aria-hidden", "true");
   hamburger.classList.remove("is-open");
   hamburger.focus();
+  document.body.style.overflow = "";
 
 }
 
