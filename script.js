@@ -15,6 +15,7 @@ const $$ = (sel, parent = document) => [...parent.querySelectorAll(sel)];
 /* ---------- Footer year ---------- */
 $("#year").textContent = new Date().getFullYear();
 
+
 /* ---------- Mobile menu ---------- */
 const hamburger = $("#hamburger");
 const mobileMenu = $("#mobileMenu");
