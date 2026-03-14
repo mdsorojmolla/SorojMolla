@@ -3,8 +3,8 @@ const $ = (sel, parent = document) => parent.querySelector(sel);
 const $$ = (sel, parent = document) => [...parent.querySelectorAll(sel)];
 
 /* ---------- Footer year ---------- */
-$("#year").textContent = new Date().getFullYear();
-
+const yearEl = $("#year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 /* ---------- Mobile menu ---------- */
 const hamburger = $("#hamburger");
@@ -12,62 +12,72 @@ const mobileMenu = $("#mobileMenu");
 const mobileClose = $("#mobileClose");
 const menuBackdrop = $("#menuBackdrop");
 
+function setBodyMenuState(isOpen) {
+  document.body.classList.toggle("menu-open", isOpen);
+}
+
 function openMenu() {
+  if (!hamburger || !mobileMenu || !menuBackdrop) return;
+
   mobileMenu.classList.add("open");
   menuBackdrop.classList.add("show");
   hamburger.setAttribute("aria-expanded", "true");
   mobileMenu.setAttribute("aria-hidden", "false");
   hamburger.classList.add("is-open");
-  document.body.style.overflow = "hidden";
+  setBodyMenuState(true);
 
-  // Focus first link for accessibility
   const firstLink = $(".mobile-link", mobileMenu);
-  firstLink && firstLink.focus();
+  firstLink?.focus();
 }
 
-function closeMenu() {
+function closeMenu({ restoreFocus = true } = {}) {
+  if (!hamburger || !mobileMenu || !menuBackdrop) return;
+
   mobileMenu.classList.remove("open");
   menuBackdrop.classList.remove("show");
   hamburger.setAttribute("aria-expanded", "false");
   mobileMenu.setAttribute("aria-hidden", "true");
   hamburger.classList.remove("is-open");
-  hamburger.focus();
-  document.body.style.overflow = "";
+  setBodyMenuState(false);
 
+  if (restoreFocus) hamburger.focus();
 }
 
-hamburger.addEventListener("click", () => {
-  const isOpen = mobileMenu.classList.contains("open");
+hamburger?.addEventListener("click", () => {
+  const isOpen = mobileMenu?.classList.contains("open");
   isOpen ? closeMenu() : openMenu();
 });
 
-mobileClose.addEventListener("click", closeMenu);
-menuBackdrop.addEventListener("click", closeMenu);
+mobileClose?.addEventListener("click", () => closeMenu());
+menuBackdrop?.addEventListener("click", () => closeMenu({ restoreFocus: false }));
 
-// Close mobile menu when clicking a menu item
-$$(".mobile-link").forEach(link => {
-  link.addEventListener("click", () => closeMenu());
+$$(".mobile-link").forEach((link) => {
+  link.addEventListener("click", () => closeMenu({ restoreFocus: false }));
 });
 
-// ESC closes mobile menu
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && mobileMenu.classList.contains("open")) closeMenu();
+  if (e.key === "Escape" && mobileMenu?.classList.contains("open")) closeMenu();
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900 && mobileMenu?.classList.contains("open")) {
+    closeMenu({ restoreFocus: false });
+  }
 });
 
 /* ---------- Reveal on scroll ---------- */
 const revealItems = $$(".reveal");
 const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
+  entries.forEach((entry) => {
     if (entry.isIntersecting) entry.target.classList.add("visible");
   });
 }, { threshold: 0.12 });
+revealItems.forEach((el) => revealObserver.observe(el));
 
-revealItems.forEach(el => revealObserver.observe(el));
-
-/* ---------- Skill bars (animate on scroll) ---------- */
+/* ---------- Skill bars ---------- */
 const bars = $$(".bar");
 const barObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
+  entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
     const bar = entry.target;
     const val = Number(bar.dataset.progress || 0);
@@ -75,41 +85,31 @@ const barObserver = new IntersectionObserver((entries) => {
     barObserver.unobserve(bar);
   });
 }, { threshold: 0.35 });
+bars.forEach((bar) => barObserver.observe(bar));
 
-bars.forEach(bar => barObserver.observe(bar));
-
-/* ---------- Active nav highlight while scrolling ---------- */
+/* ---------- Active nav highlight ---------- */
 const sections = $$("main section[id]");
 const navLinks = $$(".nav-link");
 const mobileLinks = $$(".mobile-link");
 
 function setActiveLink(id) {
-  navLinks.forEach(a => {
-    const isMatch = a.getAttribute("href") === `#${id}`;
-    a.classList.toggle("active", isMatch);
-  });
-  mobileLinks.forEach(a => {
-    const isMatch = a.getAttribute("href") === `#${id}`;
-    a.classList.toggle("active", isMatch);
-  });
+  navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
+  mobileLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
 }
 
 const sectionObserver = new IntersectionObserver((entries) => {
-  // pick the most visible section
   const visible = entries
-    .filter(e => e.isIntersecting)
+    .filter((entry) => entry.isIntersecting)
     .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
   if (visible) setActiveLink(visible.target.id);
 }, { threshold: [0.25, 0.4, 0.55, 0.7] });
-
-sections.forEach(sec => sectionObserver.observe(sec));
+sections.forEach((sec) => sectionObserver.observe(sec));
 
 /* ---------- Projects Modal ---------- */
 const modal = $("#projectModal");
 const modalBackdrop = $("#modalBackdrop");
 const modalClose = $("#modalClose");
-
 const modalTitle = $("#modalTitle");
 const modalDesc = $("#modalDesc");
 const modalFull = $("#modalFull");
@@ -117,323 +117,175 @@ const modalTech = $("#modalTech");
 const modalDemo = $("#modalDemo");
 const modalGithub = $("#modalGithub");
 const modalImage = $("#modalImage");
-
 let lastFocusedEl = null;
 
 function openProjectModal(card) {
+  if (!modal || !modalBackdrop) return;
+
   lastFocusedEl = document.activeElement;
-
-  modalTitle.textContent = card.dataset.title || "Project";
-  modalDesc.textContent = card.dataset.desc || "";
-  modalFull.textContent = card.dataset.full || "";
-  modalTech.textContent = card.dataset.tech || "";
-
-  modalDemo.href = card.dataset.demo || "#";
-  modalGithub.href = card.dataset.github || "#";
+  if (modalTitle) modalTitle.textContent = card.dataset.title || "Project";
+  if (modalDesc) modalDesc.textContent = card.dataset.desc || "";
+  if (modalFull) modalFull.textContent = card.dataset.full || "";
+  if (modalTech) modalTech.textContent = card.dataset.tech || "";
+  if (modalDemo) modalDemo.href = card.dataset.demo || "#";
+  if (modalGithub) modalGithub.href = card.dataset.github || "#";
 
   const img = card.dataset.image || "";
-  modalImage.src = img;
-  modalImage.alt = `${modalTitle.textContent} preview`;
-
-  modalBackdrop.classList.add("show");
-
-  // Use <dialog> properly (with fallback)
-  if (typeof modal.showModal === "function") {
-    modal.showModal();
-  } else {
-    modal.setAttribute("open", "true");
+  if (modalImage) {
+    modalImage.src = img;
+    modalImage.alt = `${modalTitle?.textContent || "Project"} preview`;
   }
 
-  // Focus close button
-  modalClose.focus();
+  modalBackdrop.classList.add("show");
+  if (typeof modal.showModal === "function") modal.showModal();
+  else modal.setAttribute("open", "true");
+  modalClose?.focus();
 }
 
 function closeProjectModal() {
+  if (!modal || !modalBackdrop) return;
+
   modalBackdrop.classList.remove("show");
-
-  if (typeof modal.close === "function") {
-    modal.close();
-  } else {
-    modal.removeAttribute("open");
-  }
-
-  // restore focus
-  if (lastFocusedEl) lastFocusedEl.focus();
+  if (typeof modal.close === "function") modal.close();
+  else modal.removeAttribute("open");
+  lastFocusedEl?.focus?.();
 }
 
-$$(".project-card").forEach(card => {
+$$(".project-card").forEach((card) => {
   card.addEventListener("click", () => openProjectModal(card));
   card.addEventListener("keydown", (e) => {
-    // Make cards keyboard-usable
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       openProjectModal(card);
     }
   });
-  // make focusable
   card.setAttribute("tabindex", "0");
   card.setAttribute("role", "button");
   card.setAttribute("aria-label", `Open project: ${card.dataset.title || "project"}`);
 });
 
-modalClose.addEventListener("click", closeProjectModal);
+modalClose?.addEventListener("click", closeProjectModal);
+modalBackdrop?.addEventListener("click", closeProjectModal);
 
-// Clicking backdrop closes modal
-modalBackdrop.addEventListener("click", closeProjectModal);
-
-// ESC closes modal
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    // only close if modal open
-    const isOpen = modal.hasAttribute("open");
-    if (isOpen) closeProjectModal();
-  }
+  if (e.key === "Escape" && modal?.hasAttribute("open")) closeProjectModal();
 });
 
-// Clicking outside the dialog content closes it (when click lands on dialog itself)
-modal.addEventListener("click", (e) => {
+modal?.addEventListener("click", (e) => {
   const rect = modal.getBoundingClientRect();
   const isInDialog =
     e.clientX >= rect.left &&
     e.clientX <= rect.right &&
     e.clientY >= rect.top &&
     e.clientY <= rect.bottom;
-
-  // If click happened on <dialog> backdrop area (some browsers), close.
-  // In practice, our custom backdrop handles most cases.
   if (!isInDialog) closeProjectModal();
 });
 
-// If the dialog emits "cancel" (e.g., ESC), prevent default and close with our UI
-modal.addEventListener("cancel", (e) => {
+modal?.addEventListener("cancel", (e) => {
   e.preventDefault();
   closeProjectModal();
 });
 
-// Certificate auto scroll in modal
-
 /* ---------- Achievement auto scroll + arrows ---------- */
-const marquee = document.getElementById("achievementMarquee");
-const track = document.getElementById("achievementTrack");
-const leftBtn = document.querySelector(".achievement-arrow-left");
-const rightBtn = document.querySelector(".achievement-arrow-right");
-
+const marquee = $("#achievementMarquee");
+const track = $("#achievementTrack");
+const leftBtn = $(".achievement-arrow-left");
+const rightBtn = $(".achievement-arrow-right");
 let speed = 1.5;
 let paused = false;
-let raf;
+let rafId = null;
 
-function updateButtons(){
-  if(marquee.scrollLeft <= 0){
-    leftBtn.classList.add("is-hidden");
-  }else{
-    leftBtn.classList.remove("is-hidden");
-  }
+function updateButtons() {
+  if (!marquee || !leftBtn) return;
+  leftBtn.classList.toggle("is-hidden", marquee.scrollLeft <= 5);
 }
 
-function autoScroll(){
-  if(!paused){
-    marquee.scrollLeft += speed;
+function autoScroll() {
+  if (!marquee || !track) return;
 
-    if(marquee.scrollLeft >= track.scrollWidth - marquee.clientWidth){
+  if (!paused) {
+    marquee.scrollLeft += speed;
+    if (marquee.scrollLeft >= track.scrollWidth - marquee.clientWidth - 2) {
       marquee.scrollLeft = 0;
     }
-
     updateButtons();
   }
 
-  raf = requestAnimationFrame(autoScroll);
+  rafId = requestAnimationFrame(autoScroll);
 }
 
-rightBtn.addEventListener("click",()=>{
-  paused = true;
-  marquee.scrollBy({left:320,behavior:"smooth"});
-});
+if (marquee && track && leftBtn && rightBtn) {
+  rightBtn.addEventListener("click", () => {
+    paused = true;
+    marquee.scrollBy({ left: 320, behavior: "smooth" });
+  });
 
-leftBtn.addEventListener("click",()=>{
-  paused = true;
-  marquee.scrollBy({left:-320,behavior:"smooth"});
-});
+  leftBtn.addEventListener("click", () => {
+    paused = true;
+    marquee.scrollBy({ left: -320, behavior: "smooth" });
+  });
 
-marquee.addEventListener("mouseenter",()=>paused=true);
-marquee.addEventListener("mouseleave",()=>paused=false);
+  marquee.addEventListener("mouseenter", () => { paused = true; });
+  marquee.addEventListener("mouseleave", () => { paused = false; });
+  marquee.addEventListener("touchstart", () => { paused = true; }, { passive: true });
+  marquee.addEventListener("touchend", () => { paused = false; }, { passive: true });
 
-updateButtons();
-autoScroll();
+  updateButtons();
+  autoScroll();
+}
 
 /* ---------- Contact form ---------- */
-
-const contactForm = document.querySelector("#contactForm");
-const formNote = document.querySelector("#formNote");
-
+const contactForm = $("#contactForm");
+const formNote = $("#formNote");
+const submitBtn = contactForm?.querySelector('button[type="submit"]');
 const FORM_ENDPOINT = "https://formspree.io/f/mdawnyrb";
 
-contactForm.addEventListener("submit", async (e) => {
+contactForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const originalLabel = submitBtn?.innerHTML;
   const formData = new FormData(contactForm);
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Sending...</span>';
+  }
+  if (formNote) formNote.textContent = "";
 
   try {
     const response = await fetch(FORM_ENDPOINT, {
       method: "POST",
       body: formData,
-      headers: {
-        Accept: "application/json"
-      }
+      headers: { Accept: "application/json" }
     });
 
     if (response.ok) {
-      formNote.textContent = "✅ Message sent successfully!";
+      if (formNote) formNote.textContent = "✅ Message sent successfully!";
       contactForm.reset();
     } else {
-      formNote.textContent = "❌ Failed to send message.";
+      if (formNote) formNote.textContent = "❌ Failed to send message.";
     }
   } catch (error) {
-    formNote.textContent = "⚠️ Network error. Try again.";
-  }
+    if (formNote) formNote.textContent = "⚠️ Network error. Try again.";
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalLabel;
+    }
 
-  setTimeout(() => {
-    formNote.textContent = "";
-  }, 4000);
+    window.setTimeout(() => {
+      if (formNote) formNote.textContent = "";
+    }, 4000);
+  }
 });
 
 /* ---------- Scroll To Top Button ---------- */
-
-const scrollTopBtn = document.querySelector("#scrollTopBtn");
-
+const scrollTopBtn = $("#scrollTopBtn");
 window.addEventListener("scroll", () => {
-
-  if (window.scrollY > 300) {
-    scrollTopBtn.classList.add("show");
-  } else {
-    scrollTopBtn.classList.remove("show");
-  }
-
+  if (!scrollTopBtn) return;
+  scrollTopBtn.classList.toggle("show", window.scrollY > 300);
 });
 
-scrollTopBtn.addEventListener("click", () => {
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
+scrollTopBtn?.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
-/* ---------- Light Particles Background (Canvas) ---------- */
-(function particles() {
-  const canvas = $("#particles");
-  if (!canvas) return;
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) {
-    canvas.style.display = "none";
-    return;
-  }
-
-  const ctx = canvas.getContext("2d", { alpha: true });
-  let w, h, dpr;
-  let particles = [];
-  let mouse = { x: null, y: null };
-
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = canvas.width = Math.floor(window.innerWidth * dpr);
-    h = canvas.height = Math.floor(window.innerHeight * dpr);
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-  }
-
-  function createParticles() {
-    const isMobile = window.innerWidth < 780;
-    const count = isMobile ? 34 : 56;
-
-    particles = Array.from({ length: count }, () => {
-      return {
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: (Math.random() * 2.2 + 0.9) * dpr,
-        vx: (Math.random() - 0.5) * 0.35 * dpr,
-        vy: (Math.random() - 0.5) * 0.35 * dpr,
-        a: Math.random() * 0.55 + 0.18
-      };
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-
-    // Soft glow dots
-    for (const p of particles) {
-      // Move
-      p.x += p.vx;
-      p.y += p.vy;
-
-      // Wrap around
-      if (p.x < -50) p.x = w + 50;
-      if (p.x > w + 50) p.x = -50;
-      if (p.y < -50) p.y = h + 50;
-      if (p.y > h + 50) p.y = -50;
-
-      // Mouse interaction (gentle)
-      if (mouse.x !== null) {
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 160 * dpr) {
-          p.x += (dx / (dist || 1)) * 0.25 * dpr;
-          p.y += (dy / (dist || 1)) * 0.25 * dpr;
-        }
-      }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-
-      // white-ish particles (no hard colors)
-      ctx.fillStyle = `rgba(255,255,255,${p.a})`;
-      ctx.fill();
-    }
-
-    // Subtle lines between close particles
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i];
-        const b = particles[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const max = 150 * dpr;
-
-        if (dist < max) {
-          const alpha = (1 - dist / max) * 0.16;
-          ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-          ctx.lineWidth = 1 * dpr;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener("mousemove", (e) => {
-    mouse.x = e.clientX * dpr;
-    mouse.y = e.clientY * dpr;
-  });
-
-  window.addEventListener("mouseleave", () => {
-    mouse.x = null;
-    mouse.y = null;
-  });
-
-  window.addEventListener("resize", () => {
-    resize();
-    createParticles();
-  });
-
-  resize();
-  createParticles();
-  draw();
-})();
