@@ -1,13 +1,3 @@
-/* =========================================================
-   Soroj Molla — Glass Portfolio JS
-   - Mobile menu (hamburger)
-   - Smooth active nav highlight
-   - Reveal animations on scroll
-   - Animated skill progress bars on scroll
-   - Projects modal (glass dialog)
-   - Simple particles background (performance-friendly)
-========================================================= */
-
 /* ---------- Helpers ---------- */
 const $ = (sel, parent = document) => parent.querySelector(sel);
 const $$ = (sel, parent = document) => [...parent.querySelectorAll(sel)];
@@ -220,12 +210,62 @@ modal.addEventListener("cancel", (e) => {
   closeProjectModal();
 });
 
+// Certificate auto scroll in modal
+
+/* ---------- Achievement auto scroll + arrows ---------- */
+const marquee = document.getElementById("achievementMarquee");
+const track = document.getElementById("achievementTrack");
+const leftBtn = document.querySelector(".achievement-arrow-left");
+const rightBtn = document.querySelector(".achievement-arrow-right");
+
+let speed = 1.5;
+let paused = false;
+let raf;
+
+function updateButtons(){
+  if(marquee.scrollLeft <= 0){
+    leftBtn.classList.add("is-hidden");
+  }else{
+    leftBtn.classList.remove("is-hidden");
+  }
+}
+
+function autoScroll(){
+  if(!paused){
+    marquee.scrollLeft += speed;
+
+    if(marquee.scrollLeft >= track.scrollWidth - marquee.clientWidth){
+      marquee.scrollLeft = 0;
+    }
+
+    updateButtons();
+  }
+
+  raf = requestAnimationFrame(autoScroll);
+}
+
+rightBtn.addEventListener("click",()=>{
+  paused = true;
+  marquee.scrollBy({left:320,behavior:"smooth"});
+});
+
+leftBtn.addEventListener("click",()=>{
+  paused = true;
+  marquee.scrollBy({left:-320,behavior:"smooth"});
+});
+
+marquee.addEventListener("mouseenter",()=>paused=true);
+marquee.addEventListener("mouseleave",()=>paused=false);
+
+updateButtons();
+autoScroll();
+
 /* ---------- Contact form ---------- */
 
 const contactForm = document.querySelector("#contactForm");
 const formNote = document.querySelector("#formNote");
 
-const FORM_ENDPOINT = "https://formspree.io/f/xaqpwpkl"; // your formspree link
+const FORM_ENDPOINT = "https://formspree.io/f/mdawnyrb";
 
 contactForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -256,19 +296,29 @@ contactForm.addEventListener("submit", async (e) => {
   }, 4000);
 });
 
+/* ---------- Scroll To Top Button ---------- */
 
+const scrollTopBtn = document.querySelector("#scrollTopBtn");
 
+window.addEventListener("scroll", () => {
 
+  if (window.scrollY > 300) {
+    scrollTopBtn.classList.add("show");
+  } else {
+    scrollTopBtn.classList.remove("show");
+  }
 
+});
 
+scrollTopBtn.addEventListener("click", () => {
 
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
+});
 /* ---------- Light Particles Background (Canvas) ---------- */
-/*
-  Minimal, subtle, performance-friendly particles.
-  - Auto disables on small/low-end with prefers-reduced-motion
-  - Also reduces particle count on mobile widths
-*/
 (function particles() {
   const canvas = $("#particles");
   if (!canvas) return;
